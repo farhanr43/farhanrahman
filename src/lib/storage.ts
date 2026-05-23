@@ -1,23 +1,18 @@
 import fs from "fs";
 import path from "path";
+import { Redis } from "@upstash/redis";
 
 const dataDir = path.join(process.cwd(), "src", "data");
 
-function hasKvEnv(): boolean {
-  return !!(process.env.KV_REST_API_URL || process.env.KV_URL);
-}
+let kvClient: Redis | null = null;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let kvClient: any = null;
-
-async function getKv() {
+function getKv(): Redis | null {
   if (kvClient) return kvClient;
-  if (!hasKvEnv()) return null;
-  try {
-    const mod = await import("@vercel/kv");
-    kvClient = mod.kv;
-  } catch {
-    kvClient = null;
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    kvClient = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
   }
   return kvClient;
 }
@@ -39,7 +34,7 @@ function writeJSON<T>(filename: string, data: T): boolean {
 }
 
 export async function getData<T>(filename: string): Promise<T> {
-  const client = await getKv();
+  const client = getKv();
   if (client) {
     try {
       const cached = await client.get(`portfolio:${filename}`);
@@ -50,7 +45,7 @@ export async function getData<T>(filename: string): Promise<T> {
 }
 
 export async function setData<T>(filename: string, data: T): Promise<void> {
-  const client = await getKv();
+  const client = getKv();
   if (client) {
     try {
       await client.set(`portfolio:${filename}`, data);
