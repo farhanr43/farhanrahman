@@ -67,12 +67,12 @@ export default function Hero({ profile, settings }: HeroProps) {
       <HeroCodeDecorations />
 
       <div className="container-custom relative z-10">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full mb-8"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full mb-8 mt-4 md:mt-0"
           >
             <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
             <span className="text-accent text-sm font-medium">Available for work</span>
@@ -91,7 +91,7 @@ export default function Hero({ profile, settings }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-heading text-5xl sm:text-6xl md:text-8xl font-bold text-primary mb-2 leading-tight break-words"
+            className="font-heading text-[2.5rem] sm:text-6xl md:text-8xl font-bold text-primary mb-2 leading-tight break-words"
           >
             {profile.name}
           </motion.h1>
