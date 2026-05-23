@@ -12,8 +12,10 @@ interface ProjectPageProps {
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
-  const profile = getProfile();
+  const [project, profile] = await Promise.all([
+    getProjectBySlug(slug),
+    getProfile(),
+  ]);
 
   if (!project) {
     notFound();

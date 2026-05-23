@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const profile = getProfile();
+    const profile = await getProfile();
     return NextResponse.json(profile);
   } catch {
     return NextResponse.json({ error: "Failed to fetch profile" }, { status: 500 });
@@ -15,7 +15,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const profile: Profile = await request.json();
-    saveProfile(profile);
+    await saveProfile(profile);
     return NextResponse.json(profile);
   } catch {
     return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });

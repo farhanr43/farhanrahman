@@ -9,11 +9,13 @@ import { getProfile, getFeaturedProjects, getSkills, getSettings } from "@/lib/d
 
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const profile = getProfile();
-  const projects = getFeaturedProjects();
-  const skills = getSkills();
-  const settings = getSettings();
+export default async function Home() {
+  const [profile, projects, skills, settings] = await Promise.all([
+    getProfile(),
+    getFeaturedProjects(),
+    getSkills(),
+    getSettings(),
+  ]);
 
   return (
     <>

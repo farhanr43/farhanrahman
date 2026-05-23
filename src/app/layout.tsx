@@ -50,14 +50,14 @@ const fontMap: Record<string, string> = {
 
 export const dynamic = "force-dynamic";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   let theme;
   try {
-    theme = getTheme();
+    theme = await getTheme();
   } catch {
     theme = null;
   }

@@ -1,18 +1,4 @@
-import fs from "fs";
-import path from "path";
-
-const dataDir = path.join(process.cwd(), "src", "data");
-
-function readJSON<T>(filename: string): T {
-  const filePath = path.join(dataDir, filename);
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(fileContent);
-}
-
-function writeJSON<T>(filename: string, data: T): void {
-  const filePath = path.join(dataDir, filename);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
+import { getData, setData } from "./storage";
 
 export interface Project {
   id: string;
@@ -46,67 +32,6 @@ export interface Skill {
   icon: string;
 }
 
-export function getProjects(): Project[] {
-  return readJSON<Project[]>("projects.json");
-}
-
-export function getProjectBySlug(slug: string): Project | undefined {
-  const projects = getProjects();
-  return projects.find((p) => p.slug === slug);
-}
-
-export function getFeaturedProjects(): Project[] {
-  return getProjects().filter((p) => p.featured);
-}
-
-export function getAllTags(): string[] {
-  const projects = getProjects();
-  const tags = new Set<string>();
-  projects.forEach((p) => p.tags.forEach((t) => tags.add(t)));
-  return Array.from(tags).sort();
-}
-
-export function saveProjects(projects: Project[]): void {
-  writeJSON("projects.json", projects);
-}
-
-export function addProject(project: Omit<Project, "id" | "createdAt">): Project {
-  const projects = getProjects();
-  const newProject: Project = {
-    ...project,
-    id: Date.now().toString(),
-    createdAt: new Date().toISOString().split("T")[0],
-  };
-  projects.push(newProject);
-  saveProjects(projects);
-  return newProject;
-}
-
-export function updateProject(id: string, updates: Partial<Project>): Project | null {
-  const projects = getProjects();
-  const index = projects.findIndex((p) => p.id === id);
-  if (index === -1) return null;
-  projects[index] = { ...projects[index], ...updates };
-  saveProjects(projects);
-  return projects[index];
-}
-
-export function deleteProject(id: string): boolean {
-  const projects = getProjects();
-  const filtered = projects.filter((p) => p.id !== id);
-  if (filtered.length === projects.length) return false;
-  saveProjects(filtered);
-  return true;
-}
-
-export function getProfile(): Profile {
-  return readJSON<Profile>("profile.json");
-}
-
-export function saveProfile(profile: Profile): void {
-  writeJSON("profile.json", profile);
-}
-
 export interface SiteSettings {
   siteName: string;
   siteDescription: string;
@@ -129,6 +54,21 @@ export interface SiteSettings {
   showSectionSkills: boolean;
   showSectionProjects: boolean;
   showSectionContact: boolean;
+}
+
+export interface ThemeConfig {
+  colors: {
+    background: string; surface: string; surfaceHover: string;
+    border: string; borderHover: string;
+    primary: string; secondary: string; muted: string;
+    accent: string; accentHover: string; accentMuted: string; accentSubtle: string;
+    success: string; successBg: string;
+    warning: string; warningBg: string;
+    danger: string; dangerBg: string;
+  };
+  fonts: { heading: string; body: string };
+  layout: { containerWidth: number; borderRadius: number; sectionPadding: number };
+  colorPreset: string;
 }
 
 const defaultSettings: SiteSettings = {
@@ -157,107 +97,115 @@ const defaultSettings: SiteSettings = {
   contactText: "Have a project in mind or want to collaborate? I'd love to hear from you. Let's create something amazing together.",
   contactCtaText: "Let's work together",
   footerText: "Built with passion & Next.js",
-  showSectionHero: true,
-  showSectionAbout: true,
-  showSectionSkills: true,
-  showSectionProjects: true,
-  showSectionContact: true,
+  showSectionHero: true, showSectionAbout: true, showSectionSkills: true,
+  showSectionProjects: true, showSectionContact: true,
 };
 
-export function getSettings(): SiteSettings {
+export const defaultTheme: ThemeConfig = {
+  colors: {
+    background: "#0a0a0a", surface: "#141414", surfaceHover: "#1a1a1a",
+    border: "#262626", borderHover: "#333333",
+    primary: "#fafafa", secondary: "#a1a1aa", muted: "#52525b",
+    accent: "#22d3ee", accentHover: "#06b6d4", accentMuted: "#0891b2", accentSubtle: "#164e63",
+    success: "#22c55e", successBg: "#052e16",
+    warning: "#eab308", warningBg: "#3b2f00",
+    danger: "#ef4444", dangerBg: "#450a0a",
+  },
+  fonts: { heading: "Outfit", body: "DM Sans" },
+  layout: { containerWidth: 1200, borderRadius: 12, sectionPadding: 80 },
+  colorPreset: "midnight",
+};
+
+export async function getProjects(): Promise<Project[]> {
+  return getData<Project[]>("projects.json");
+}
+
+export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
+  const projects = await getProjects();
+  return projects.find((p) => p.slug === slug);
+}
+
+export async function getFeaturedProjects(): Promise<Project[]> {
+  const projects = await getProjects();
+  return projects.filter((p) => p.featured);
+}
+
+export async function getAllTags(): Promise<string[]> {
+  const projects = await getProjects();
+  const tags = new Set<string>();
+  projects.forEach((p) => p.tags.forEach((t) => tags.add(t)));
+  return Array.from(tags).sort();
+}
+
+export async function saveProjects(projects: Project[]): Promise<void> {
+  await setData("projects.json", projects);
+}
+
+export async function addProject(project: Omit<Project, "id" | "createdAt">): Promise<Project> {
+  const projects = await getProjects();
+  const newProject: Project = {
+    ...project,
+    id: Date.now().toString(),
+    createdAt: new Date().toISOString().split("T")[0],
+  };
+  projects.push(newProject);
+  await saveProjects(projects);
+  return newProject;
+}
+
+export async function updateProject(id: string, updates: Partial<Project>): Promise<Project | null> {
+  const projects = await getProjects();
+  const index = projects.findIndex((p) => p.id === id);
+  if (index === -1) return null;
+  projects[index] = { ...projects[index], ...updates };
+  await saveProjects(projects);
+  return projects[index];
+}
+
+export async function deleteProject(id: string): Promise<boolean> {
+  const projects = await getProjects();
+  const filtered = projects.filter((p) => p.id !== id);
+  if (filtered.length === projects.length) return false;
+  await saveProjects(filtered);
+  return true;
+}
+
+export async function getProfile(): Promise<Profile> {
+  return getData<Profile>("profile.json");
+}
+
+export async function saveProfile(profile: Profile): Promise<void> {
+  await setData("profile.json", profile);
+}
+
+export async function getSettings(): Promise<SiteSettings> {
   try {
-    return readJSON<SiteSettings>("settings.json");
+    return await getData<SiteSettings>("settings.json");
   } catch {
     return defaultSettings;
   }
 }
 
-export function saveSettings(settings: SiteSettings): void {
-  writeJSON("settings.json", settings);
+export async function saveSettings(settings: SiteSettings): Promise<void> {
+  await setData("settings.json", settings);
 }
 
-export interface ThemeConfig {
-  colors: {
-    background: string;
-    surface: string;
-    surfaceHover: string;
-    border: string;
-    borderHover: string;
-    primary: string;
-    secondary: string;
-    muted: string;
-    accent: string;
-    accentHover: string;
-    accentMuted: string;
-    accentSubtle: string;
-    success: string;
-    successBg: string;
-    warning: string;
-    warningBg: string;
-    danger: string;
-    dangerBg: string;
-  };
-  fonts: {
-    heading: string;
-    body: string;
-  };
-  layout: {
-    containerWidth: number;
-    borderRadius: number;
-    sectionPadding: number;
-  };
-  colorPreset: string;
-}
-
-export const defaultTheme: ThemeConfig = {
-  colors: {
-    background: "#0a0a0a",
-    surface: "#141414",
-    surfaceHover: "#1a1a1a",
-    border: "#262626",
-    borderHover: "#333333",
-    primary: "#fafafa",
-    secondary: "#a1a1aa",
-    muted: "#52525b",
-    accent: "#22d3ee",
-    accentHover: "#06b6d4",
-    accentMuted: "#0891b2",
-    accentSubtle: "#164e63",
-    success: "#22c55e",
-    successBg: "#052e16",
-    warning: "#eab308",
-    warningBg: "#3b2f00",
-    danger: "#ef4444",
-    dangerBg: "#450a0a",
-  },
-  fonts: {
-    heading: "Outfit",
-    body: "DM Sans",
-  },
-  layout: {
-    containerWidth: 1200,
-    borderRadius: 12,
-    sectionPadding: 80,
-  },
-  colorPreset: "midnight",
-};
-
-export function getTheme(): ThemeConfig {
+export async function getTheme(): Promise<ThemeConfig> {
   try {
-    return readJSON<ThemeConfig>("theme.json");
+    return await getData<ThemeConfig>("theme.json");
   } catch {
     return defaultTheme;
   }
 }
 
-export function saveTheme(theme: ThemeConfig): void {
-  writeJSON("theme.json", theme);
+export async function saveTheme(theme: ThemeConfig): Promise<void> {
+  await setData("theme.json", theme);
 }
 
-export function getSkills(): Skill[] {
-  return readJSON<Skill[]>("skills.json");
+export async function getSkills(): Promise<Skill[]> {
+  return getData<Skill[]>("skills.json");
 }
 
-export function saveSkills(skills: Skill[]): void {
-  writeJSON("skills.json", skills);
+export async function saveSkills(skills: Skill[]): Promise<void> {
+  await setData("skills.json", skills);
 }

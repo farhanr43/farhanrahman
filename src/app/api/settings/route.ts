@@ -4,14 +4,18 @@ import { getSettings, saveSettings } from "@/lib/data";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const settings = getSettings();
-  return NextResponse.json(settings);
+  try {
+    const settings = await getSettings();
+    return NextResponse.json(settings);
+  } catch {
+    return NextResponse.json({ error: "Failed to fetch settings" }, { status: 500 });
+  }
 }
 
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    saveSettings(body);
+    await saveSettings(body);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });

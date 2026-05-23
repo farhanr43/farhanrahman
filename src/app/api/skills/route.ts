@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const skills = getSkills();
+    const skills = await getSkills();
     return NextResponse.json(skills);
   } catch {
     return NextResponse.json({ error: "Failed to fetch skills" }, { status: 500 });
@@ -15,7 +15,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const skills: Skill[] = await request.json();
-    saveSkills(skills);
+    await saveSkills(skills);
     return NextResponse.json(skills);
   } catch {
     return NextResponse.json({ error: "Failed to update skills" }, { status: 500 });
