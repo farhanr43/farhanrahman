@@ -9,14 +9,13 @@ interface AdminLayoutProps {
   children: ReactNode;
 }
 
-const ADMIN_EMAIL = "farhanrahman0043@gmail.com";
-const ADMIN_PASSWORD = "FarhanR43@";
-
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loginError, setLoginError] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
@@ -28,13 +27,26 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     setLoading(false);
   }, []);
 
-  const handleLogin = () => {
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      localStorage.setItem("admin_auth", "true");
-      setIsAuthenticated(true);
-    } else {
-      alert("Invalid credentials");
+  const handleLogin = async () => {
+    setLoggingIn(true);
+    setLoginError("");
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (res.ok) {
+        localStorage.setItem("admin_auth", "true");
+        setIsAuthenticated(true);
+      } else {
+        const data = await res.json();
+        setLoginError(data.error || "Invalid credentials");
+      }
+    } catch {
+      setLoginError("Network error. Check your connection.");
     }
+    setLoggingIn(false);
   };
 
   const handleLogout = () => {
@@ -69,14 +81,19 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             placeholder="Password"
             className="w-full px-4 py-3 bg-background border border-border rounded-lg text-primary placeholder:text-secondary focus:outline-none focus:border-accent mb-4"
           />
+          {loginError && (
+            <p className="text-danger text-sm mb-4 text-center">{loginError}</p>
+          )}
           <button
             onClick={handleLogin}
-            className="w-full bg-accent text-background py-3 rounded-lg font-medium hover:bg-accent-hover transition-colors cursor-pointer"
+            disabled={loggingIn}
+            className="w-full bg-accent text-background py-3 rounded-lg font-medium hover:bg-accent-hover transition-colors cursor-pointer disabled:opacity-50"
           >
-            Login
+            {loggingIn ? "Logging in..." : "Login"}
           </button>
         </div>
       </div>
