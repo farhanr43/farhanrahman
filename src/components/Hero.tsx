@@ -100,17 +100,17 @@ export default function Hero({ profile, settings }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center gap-3 mb-8"
+            className="flex items-center justify-center md:justify-start gap-3 mb-8"
           >
-            <span className="text-2xl md:text-4xl text-secondary font-light">{currentRole}</span>
-            <span className="text-2xl md:text-4xl text-accent animate-pulse">|</span>
+            <span className="text-xl sm:text-2xl md:text-4xl text-secondary font-light">{currentRole}</span>
+            <span className="text-xl sm:text-2xl md:text-4xl text-accent animate-pulse">|</span>
           </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-secondary text-lg md:text-xl max-w-2xl mb-12 leading-relaxed"
+            className="text-secondary text-base sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 leading-relaxed"
           >
             {profile.bio}
           </motion.p>
@@ -119,19 +119,19 @@ export default function Hero({ profile, settings }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex flex-wrap items-center gap-6"
+            className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-6"
           >
             <Link
               href="/projects"
-              className="group inline-flex items-center gap-3 bg-accent text-background px-8 py-4 rounded-xl font-semibold hover:bg-accent-hover transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 hover:scale-105 cursor-pointer"
+              className="group inline-flex items-center gap-2 bg-accent text-background px-5 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-sm md:text-base hover:bg-accent-hover transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 hover:scale-105 cursor-pointer"
             >
               View Projects
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </Link>
 
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold border border-border text-primary hover:border-accent hover:text-accent transition-all duration-300 cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-sm md:text-base border border-border text-primary hover:border-accent hover:text-accent transition-all duration-300 cursor-pointer"
             >
               Contact Me
             </Link>
