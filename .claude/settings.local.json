@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000/admin)",
+      "Bash(Select-String -Pattern \"Error|error|exception\")",
+      "Bash(Select-Object -First 5)",
+      "Bash(curl *)",
+      "Bash(Get-Content *)",
+      "Bash(powershell *)",
+      "Bash(npm install *)",
+      "Bash(Remove-Item -Recurse -Force .next)",
+      "Bash(Select-Object -First 50)",
+      "Bash(taskkill /F /IM node.exe)"
+    ]
+  }
+}

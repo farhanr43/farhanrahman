@@ -1,0 +1,14 @@
+[
+  { "id": "1", "name": "React", "icon": "code" },
+  { "id": "2", "name": "Next.js", "icon": "box" },
+  { "id": "3", "name": "TypeScript", "icon": "file-code" },
+  { "id": "4", "name": "Node.js", "icon": "server" },
+  { "id": "5", "name": "Python", "icon": "binary" },
+  { "id": "6", "name": "PostgreSQL", "icon": "database" },
+  { "id": "7", "name": "MongoDB", "icon": "leaf" },
+  { "id": "8", "name": "AWS", "icon": "cloud" },
+  { "id": "9", "name": "Docker", "icon": "container" },
+  { "id": "10", "name": "GraphQL", "icon": "network" },
+  { "id": "11", "name": "Figma", "icon": "pen-tool" },
+  { "id": "12", "name": "Git", "icon": "git-branch" }
+]

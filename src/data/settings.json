@@ -1,0 +1,61 @@
+{
+  "siteName": "Farhan Rahman | Full Stack Developer & Designer",
+  "siteDescription": "Full Stack Developer & UI/UX Designer specializing in modern web applications",
+  "greeting": "Hello, I'm",
+  "heroRoles": [
+    "Full Stack Developer",
+    "UI/UX Designer",
+    "Problem Solver",
+    "Tech Enthusiast"
+  ],
+  "stats": [
+    {
+      "label": "Years Experience",
+      "value": "2+",
+      "icon": "Code2"
+    },
+    {
+      "label": "Projects Done",
+      "value": "14+",
+      "icon": "Palette"
+    },
+    {
+      "label": "Client Satisfaction",
+      "value": "100%",
+      "icon": "Zap"
+    }
+  ],
+  "aboutHeading": "Crafting Digital",
+  "aboutHighlight": "Experiences",
+  "aboutHighlights": [
+    {
+      "text": "Clean, efficient code",
+      "icon": "Code"
+    },
+    {
+      "text": "Quality-focused development",
+      "icon": "Award"
+    },
+    {
+      "text": "User-centered design",
+      "icon": "Users"
+    },
+    {
+      "text": "Modern technologies",
+      "icon": "Globe"
+    }
+  ],
+  "skillsSectionTitle": "Skills & Technologies",
+  "skillsSectionSubtitle": "Technologies I use to bring ideas to life",
+  "projectsSectionTitle": "Featured Projects",
+  "projectsSectionSubtitle": "A selection of my recent work",
+  "contactHeading": "Get In Touch",
+  "contactText": "Have a project in mind or want to collaborate? I'd love to hear from you. Let's create something amazing together.",
+  "contactCtaText": "Let's work together",
+  "footerText": "Built with passion & Next.js",
+  "showSectionHero": true,
+  "showSectionAbout": true,
+  "showSectionSkills": true,
+  "showSectionProjects": true,
+  "showSectionContact": true
+}

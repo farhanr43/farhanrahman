@@ -1,0 +1,32 @@
+{
+  "colors": {
+    "background": "#0a0a0a",
+    "surface": "#141414",
+    "surfaceHover": "#1a1a1a",
+    "border": "#262626",
+    "borderHover": "#333333",
+    "primary": "#fafafa",
+    "secondary": "#a0a0a0",
+    "muted": "#505050",
+    "accent": "#22d3ee",
+    "accentHover": "#06b6d4",
+    "accentMuted": "#0891b2",
+    "accentSubtle": "#164e63",
+    "success": "#22c55e",
+    "successBg": "#052e16",
+    "warning": "#eab308",
+    "warningBg": "#3b2f00",
+    "danger": "#ef4444",
+    "dangerBg": "#450a0a"
+  },
+  "fonts": {
+    "heading": "Outfit",
+    "body": "DM Sans"
+  },
+  "layout": {
+    "containerWidth": 1200,
+    "borderRadius": 12,
+    "sectionPadding": 80
+  },
+  "colorPreset": "midnight"
+}
