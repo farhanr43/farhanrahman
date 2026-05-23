@@ -21,7 +21,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <>
-      <Navbar />
+      <Navbar logo={profile.logo || profile.name.split(" ").map(n => n[0]).join("")} />
       <main className="min-h-screen pt-20">
         <article className="section-padding">
           <div className="container-custom">

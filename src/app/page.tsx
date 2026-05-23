@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
+      <Navbar logo={profile.logo || profile.name.split(" ").map(n => n[0]).join("")} />
       <main>
         {settings.showSectionHero && (
           <Hero profile={profile} settings={settings} />

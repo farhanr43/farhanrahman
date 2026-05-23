@@ -64,7 +64,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar logo={profile?.logo || "AM"} />
       <main className="min-h-screen pt-24 pb-20 relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0">

@@ -12,20 +12,14 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  logo: string;
+}
+
+export default function Navbar({ logo }: NavbarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [logo, setLogo] = useState("AM");
-
-  useEffect(() => {
-    fetch("/api/profile")
-      .then(res => res.json())
-      .then(data => {
-        if (data.logo) setLogo(data.logo);
-      })
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {

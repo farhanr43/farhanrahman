@@ -10,7 +10,7 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar logo={profile.logo || profile.name.split(" ").map(n => n[0]).join("")} />
       <ProjectsList projects={projects} tags={tags} />
       <Footer profile={profile} />
     </>
