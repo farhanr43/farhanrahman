@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderKanban, User, Code, Palette, Settings, LogOut, ExternalLink } from "lucide-react";
+import { LayoutDashboard, FolderKanban, User, Code, Palette, Settings, Mail, LogOut, ExternalLink } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin/skills", label: "Skills", icon: Code },
   { href: "/admin/theme", label: "Customize", icon: Palette },
   { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/messages", label: "Messages", icon: Mail },
 ];
 
 interface AdminSidebarProps {

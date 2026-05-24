@@ -1,6 +1,25 @@
+import type { Metadata } from "next";
 import { Outfit, DM_Sans, Inter, Poppins, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
-import { getTheme } from "@/lib/data";
+import { getTheme, getSettings } from "@/lib/data";
 import "./globals.css";
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSettings();
+    return {
+      title: settings.siteTitle || "Farhan Rahman Portfolio",
+      description: settings.siteDescription,
+      icons: settings.favicon
+        ? [{ rel: "icon", url: settings.favicon, type: settings.favicon.endsWith(".svg") ? "image/svg+xml" : undefined }]
+        : [{ rel: "icon", url: "/favicon.svg", type: "image/svg+xml" }],
+    };
+  } catch {
+    return {
+      title: "Farhan Rahman Portfolio",
+      icons: [{ rel: "icon", url: "/favicon.svg", type: "image/svg+xml" }],
+    };
+  }
+}
 
 const outfit = Outfit({
   subsets: ["latin"],

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1779611985080",
+    "name": "Anik Ahmed",
+    "email": "anikah@gmail.com",
+    "subject": "Need a website",
+    "message": "BNuilds das dwd",
+    "createdAt": "2026-05-24T08:39:45.080Z",
+    "read": false
+  },
+  {
+    "id": "1779611735032",
+    "name": "Farhan Rahman",
+    "email": "farhanra@gmail.com",
+    "subject": "sadnkfsfnk",
+    "message": "kdsafnsdknflsd",
+    "createdAt": "2026-05-24T08:35:35.032Z",
+    "read": true
+  },
+  {
+    "id": "1779611336688",
+    "name": "Naruto",
+    "email": "naruto@gmail.com",
+    "subject": "Need a website",
+    "message": "i would like to make a proffesinal website for my business.",
+    "createdAt": "2026-05-24T08:28:56.688Z",
+    "read": true
+  },
+  {
+    "id": "1779608191687",
+    "name": "farhan",
+    "email": "farhanr0123@gmail.com",
+    "subject": "Need website",
+    "message": "need",
+    "createdAt": "2026-05-24T07:36:31.687Z",
+    "read": true
+  }
+]

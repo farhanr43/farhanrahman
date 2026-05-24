@@ -6,7 +6,9 @@ import { SiteSettings } from "@/lib/api";
 
 const defaultSettings: SiteSettings = {
   siteName: "",
+  siteTitle: "",
   siteDescription: "",
+  favicon: "",
   greeting: "",
   heroRoles: [],
   stats: [],
@@ -77,7 +79,7 @@ export default function AdminSettings() {
         {/* SEO / Site Identity */}
         <section className="bg-surface border border-border rounded-2xl p-6">
           <h2 className="font-heading text-xl font-semibold text-primary mb-1">Site Identity</h2>
-          <p className="text-secondary text-sm mb-6">Browser tab title, search engine description</p>
+          <p className="text-secondary text-sm mb-6">Browser tab title, favicon, search engine description</p>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-secondary text-sm mb-2">Site Name (SEO Title)</label>
@@ -88,12 +90,35 @@ export default function AdminSettings() {
               />
             </div>
             <div>
+              <label className="block text-secondary text-sm mb-2">Browser Tab Title</label>
+              <input
+                value={settings.siteTitle}
+                onChange={e => update("siteTitle", e.target.value)}
+                className="w-full px-4 py-3 bg-background border border-border rounded-xl text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all"
+              />
+            </div>
+            <div>
               <label className="block text-secondary text-sm mb-2">Site Description (SEO Meta)</label>
               <input
                 value={settings.siteDescription}
                 onChange={e => update("siteDescription", e.target.value)}
                 className="w-full px-4 py-3 bg-background border border-border rounded-xl text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all"
               />
+            </div>
+            <div>
+              <label className="block text-secondary text-sm mb-2">Favicon URL</label>
+              <div className="flex items-center gap-3">
+                <input
+                  value={settings.favicon}
+                  onChange={e => update("favicon", e.target.value)}
+                  placeholder="/favicon.svg"
+                  className="flex-1 px-4 py-3 bg-background border border-border rounded-xl text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all"
+                />
+                {settings.favicon && (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={settings.favicon} alt="favicon" className="w-9 h-9 rounded-lg border border-border bg-white flex-shrink-0" />
+                )}
+              </div>
             </div>
           </div>
         </section>

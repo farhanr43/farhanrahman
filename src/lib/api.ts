@@ -65,7 +65,9 @@ export interface ThemeConfig {
 
 export interface SiteSettings {
   siteName: string;
+  siteTitle: string;
   siteDescription: string;
+  favicon: string;
   greeting: string;
   heroRoles: string[];
   stats: { label: string; value: string; icon: string }[];

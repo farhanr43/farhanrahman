@@ -34,7 +34,9 @@ export interface Skill {
 
 export interface SiteSettings {
   siteName: string;
+  siteTitle: string;
   siteDescription: string;
+  favicon: string;
   greeting: string;
   heroRoles: string[];
   stats: { label: string; value: string; icon: string }[];
@@ -73,7 +75,9 @@ export interface ThemeConfig {
 
 const defaultSettings: SiteSettings = {
   siteName: "AM | Full Stack Developer & Designer",
+  siteTitle: "Farhan Rahman Portfolio",
   siteDescription: "Full Stack Developer & UI/UX Designer specializing in modern web applications",
+  favicon: "/favicon.svg",
   greeting: "Hello, I'm",
   heroRoles: ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Tech Enthusiast"],
   stats: [
