@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import nodemailer from "nodemailer";
+import { getData, setData } from "@/lib/storage";
 
 interface ContactMessage {
   id: string;
@@ -13,21 +12,16 @@ interface ContactMessage {
   read: boolean;
 }
 
-const dataDir = path.join(process.cwd(), "src", "data");
-const messagesFile = path.join(dataDir, "contact-messages.json");
-
-function readMessages(): ContactMessage[] {
+async function readMessages(): Promise<ContactMessage[]> {
   try {
-    if (!fs.existsSync(messagesFile)) return [];
-    const content = fs.readFileSync(messagesFile, "utf-8");
-    return JSON.parse(content);
+    return await getData<ContactMessage[]>("contact-messages.json");
   } catch {
     return [];
   }
 }
 
-function writeMessages(messages: ContactMessage[]): void {
-  fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2));
+async function writeMessages(messages: ContactMessage[]): Promise<void> {
+  await setData("contact-messages.json", messages);
 }
 
 export async function POST(request: Request) {
@@ -47,9 +41,9 @@ export async function POST(request: Request) {
     read: false,
   };
 
-  const messages = readMessages();
+  const messages = await readMessages();
   messages.unshift(newMessage);
-  writeMessages(messages);
+  await writeMessages(messages);
 
   // Send email notification (fail gracefully)
   if (process.env.SMTP_USER && process.env.SMTP_PASS) {
@@ -96,20 +90,20 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  const messages = readMessages();
+  const messages = await readMessages();
   return NextResponse.json(messages);
 }
 
 export async function PUT(request: Request) {
   try {
     const { id } = await request.json();
-    const messages = readMessages();
+    const messages = await readMessages();
     const index = messages.findIndex(m => m.id === id);
     if (index === -1) {
       return NextResponse.json({ error: "Message not found" }, { status: 404 });
     }
     messages[index].read = true;
-    writeMessages(messages);
+    await writeMessages(messages);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
